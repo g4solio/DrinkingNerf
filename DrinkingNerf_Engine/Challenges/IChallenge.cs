@@ -1,3 +1,5 @@
+using DrinkingNerf_Engine;
+
 public interface IChallenge
 {
     bool IsApplicableTo(UserId userId);

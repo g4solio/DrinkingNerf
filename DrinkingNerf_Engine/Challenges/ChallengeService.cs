@@ -1,3 +1,5 @@
+using DrinkingNerf_Engine;
+
 public class ChallengeService
 {
     public readonly IChallengesRepository _challengesCtx;

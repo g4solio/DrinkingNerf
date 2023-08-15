@@ -1,3 +1,5 @@
+using DrinkingNerf_Engine;
+
 public class Event : Challenge
 {
     public Event(ChallengeContract contract) : base(contract)

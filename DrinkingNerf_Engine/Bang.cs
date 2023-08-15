@@ -1,3 +1,5 @@
+using DrinkingNerf_Engine;
+
 [Serializable]
 public struct Bang
 {

@@ -1,53 +1,58 @@
 using System.Runtime.Serialization;
 using DrinkingNerf_Engine.Exceptions;
 
-public class UserService
+namespace DrinkingNerf_Engine
 {
-    private readonly IUserRepository<User> _userCtx;
-    public UserService(IUserRepository<User> userDbContext)
+    public class UserService
     {
-        _userCtx = userDbContext;
-    }
-
-    public UserId GetUserIdByName(string name)
-    {
-        var id = _userCtx.GetUserIdByName(name);
-
-        if(id <= 0)
-            throw new UsernameNotFoundExceptions(name);
-
-        return new UserId()
+        private readonly IUserRepository<User> _userCtx;
+        public UserService(IUserRepository<User> userDbContext)
         {
-            Id = id
-        };
+            _userCtx = userDbContext;
+        }
+
+        public UserId GetUserIdByName(string name)
+        {
+            var id = _userCtx.GetUserIdByName(name);
+
+            if (id <= 0)
+                throw new UsernameNotFoundExceptions(name);
+
+            return new UserId()
+            {
+                Id = id
+            };
+        }
+
+        internal User GetUser(UserId from)
+        {
+            return _userCtx.GetUser(from.Id);
+        }
+
+        internal void UpdateUser(User fromUser)
+        {
+            _userCtx.UpdateUser(fromUser);
+        }
     }
 
-    internal User GetUser(UserId from)
+    public class User
     {
-        return _userCtx.GetUser(from.Id);
+        public UserId UserId { get; set; }
+
+        public string Name {get; set;}
+        public int Score { get; set; }
+
     }
 
-    internal void UpdateUser(User fromUser)
+    public interface IUserRepository<TUser>
     {
-        _userCtx.UpdateUser(fromUser);
+        TUser GetUser(string id);
+        string GetUserIdByName(string name);
+        void UpdateUser(TUser fromUser);
     }
-}
 
-public class User
-{
-    public UserId UserId {get; set;}
-    public int Score {get; set;}
-
-}
-
-public interface IUserRepository<TUser>
-{
-    TUser GetUser(int id);
-    int GetUserIdByName(string name);
-    void UpdateUser(TUser fromUser);
-}
-
-public struct UserId
-{
-    public int Id { get; init; }
+    public struct UserId
+    {
+        public string Id { get; init; }
+    }
 }

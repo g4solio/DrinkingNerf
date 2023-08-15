@@ -1,3 +1,5 @@
+using DrinkingNerf_Engine;
+
 public abstract class Challenge : IChallenge
 {
     protected readonly ChallengeContract _contract;
