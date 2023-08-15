@@ -15,7 +15,7 @@ namespace DrinkingNerf_Engine
         {
             var id = _userCtx.GetUserIdByName(name);
 
-            if (id <= 0)
+            if (string.IsNullOrEmpty(id))
                 throw new UsernameNotFoundExceptions(name);
 
             return new UserId()
