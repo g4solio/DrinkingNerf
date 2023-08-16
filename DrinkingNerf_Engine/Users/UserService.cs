@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using DrinkingNerf_Engine.Exceptions;
 
-namespace DrinkingNerf_Engine
+namespace DrinkingNerf_Engine.Users
 {
     public class UserService
     {
@@ -33,26 +33,5 @@ namespace DrinkingNerf_Engine
         {
             _userCtx.UpdateUser(fromUser);
         }
-    }
-
-    public class User
-    {
-        public UserId UserId { get; set; }
-
-        public string Name {get; set;}
-        public int Score { get; set; }
-
-    }
-
-    public interface IUserRepository<TUser>
-    {
-        TUser GetUser(string id);
-        string GetUserIdByName(string name);
-        void UpdateUser(TUser fromUser);
-    }
-
-    public struct UserId
-    {
-        public string Id { get; init; }
     }
 }

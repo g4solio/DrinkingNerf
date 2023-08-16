@@ -1,8 +1,8 @@
-using DrinkingNerf_Engine;
+using DrinkingNerf_Engine.Users;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-public class UserService : IUserRepository<DrinkingNerf_Engine.User>
+public class UserService : IUserRepository<DrinkingNerf_Engine.Users.User>
 {
     private readonly IMongoCollection<User> _userCollection;
 
@@ -15,7 +15,7 @@ public class UserService : IUserRepository<DrinkingNerf_Engine.User>
        _userCollection = targetDb.GetCollection<User>(dbSettings.Value.UserCollectionName);
     }
 
-    public DrinkingNerf_Engine.User GetUser(string id)
+    public DrinkingNerf_Engine.Users.User GetUser(string id)
     {
         var dataSource = _userCollection.Find(u => u.Id == id).Single();
 
@@ -35,7 +35,7 @@ public class UserService : IUserRepository<DrinkingNerf_Engine.User>
         return _userCollection.Find(u => u.Name == name).First().Id;
     }
 
-    public void UpdateUser(DrinkingNerf_Engine.User fromUser)
+    public void UpdateUser(DrinkingNerf_Engine.Users.User fromUser)
     {
         var update = Builders<User>.Update.Set(u => u.Score, fromUser.Score);
         _userCollection.UpdateOne(u => u.Id == fromUser.UserId.Id, update);

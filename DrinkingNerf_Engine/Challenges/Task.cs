@@ -1,5 +1,5 @@
 using System.Diagnostics.Contracts;
-using DrinkingNerf_Engine;
+using DrinkingNerf_Engine.Users;
 
 public class Task : Challenge
 {

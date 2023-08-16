@@ -22,7 +22,15 @@ public class ChallengeService : IChallengesRepository
             {
                 StartDateTime = challenge.Start,
                 EndDateTime = challenge.End,
-                //TODO FINISH MAP
+                TargetOutcome = Bang.OutcomeEnum.Hit,
+                From = new ()
+                {
+                    TargetId = new() { Id = challenge.FromUserId }
+                },
+                To = new () 
+                {
+                    TargetId = new () { Id = challenge.ToUserId }
+                }
             };
             yield return challenge.IsEvent ? new Event(ctr) : new Task(ctr); 
         }

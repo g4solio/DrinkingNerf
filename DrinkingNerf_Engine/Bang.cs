@@ -1,4 +1,4 @@
-using DrinkingNerf_Engine;
+using DrinkingNerf_Engine.Users;
 
 [Serializable]
 public struct Bang
