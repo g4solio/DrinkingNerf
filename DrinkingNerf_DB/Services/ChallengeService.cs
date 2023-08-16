@@ -13,7 +13,7 @@ namespace DrinkingNerf_DB.Services
 
             var targetDb = mongoClient.GetDatabase(dbSettings.Value.DBName);
 
-            _challengeCollection = targetDb.GetCollection<ChallengeModel>(dbSettings.Value.UserCollectionName);
+            _challengeCollection = targetDb.GetCollection<ChallengeModel>(dbSettings.Value.ChallengeCollectionName);
         }
 
         public IEnumerable<IChallenge> GetChallenges()

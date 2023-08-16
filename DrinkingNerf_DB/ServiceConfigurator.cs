@@ -15,6 +15,7 @@ namespace DrinkingNerf_DB
                     options.ConnectionString = dbConfiguration.GetSection("dbConfiguration").Value;
                     options.DBName = dbConfiguration.GetSection("dbName").Value;
                     options.UserCollectionName = dbConfiguration.GetSection("userCollectionName").Value;
+                    options.ChallengeCollectionName = dbConfiguration.GetSection("challengeCollectionName").Value;
                 });
             service.AddSingleton<Services.UserService>();
             service.AddTransient<IUserRepository<DrinkingNerf_Engine.Users.User>, Services.UserService>();

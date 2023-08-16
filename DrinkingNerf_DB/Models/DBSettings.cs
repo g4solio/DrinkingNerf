@@ -5,4 +5,5 @@ public class DBSettings
     public string DBName {get; set;} = null;
 
     public string UserCollectionName {get; set;} = null;
+    public string ChallengeCollectionName { get; set; } = null;
 }
