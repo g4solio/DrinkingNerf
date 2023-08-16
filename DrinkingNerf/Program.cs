@@ -8,6 +8,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+//builder.Configuration.AddJsonFile("appsettings.json");
+
 DrinkingNerf_DB.ServiceConfigurator.Configure(builder.Services, builder.Configuration.GetSection("DBSettings"));
 
 builder.Services.AddTransient<ChallengeService>();
