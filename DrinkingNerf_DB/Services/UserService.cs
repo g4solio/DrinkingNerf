@@ -1,43 +1,60 @@
+using DrinkingNerf_DB.Models;
 using DrinkingNerf_Engine.Users;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-public class UserService : IUserRepository<DrinkingNerf_Engine.Users.User>
+namespace DrinkingNerf_DB.Services
 {
-    private readonly IMongoCollection<User> _userCollection;
-
-    public UserService(IOptions<DBSettings> dbSettings)
+    public class UserService : IUserRepository<User>
     {
-       var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
+        private readonly IMongoCollection<UserModel> _userCollection;
 
-       var targetDb = mongoClient.GetDatabase(dbSettings.Value.DBName);
-
-       _userCollection = targetDb.GetCollection<User>(dbSettings.Value.UserCollectionName);
-    }
-
-    public DrinkingNerf_Engine.Users.User GetUser(string id)
-    {
-        var dataSource = _userCollection.Find(u => u.Id == id).Single();
-
-        return new()
+        public UserService(IOptions<DBSettings> dbSettings)
         {
-            UserId = new ()
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
+
+            var targetDb = mongoClient.GetDatabase(dbSettings.Value.DBName);
+
+            _userCollection = targetDb.GetCollection<UserModel>(dbSettings.Value.UserCollectionName);
+        }
+
+        public User GetUser(string id)
+        {
+            var dataSource = _userCollection.Find(u => u.Id == id).Single();
+
+            return new()
+            {
+                UserId = new()
                 {
                     Id = dataSource.Id
                 },
-            Name = dataSource.Name,
-            Score = dataSource.Score
-        };
-    }
+                Name = dataSource.Name,
+                Score = dataSource.Score
+            };
+        }
 
-    public string GetUserIdByName(string name)
-    {
-        return _userCollection.Find(u => u.Name == name).First().Id;
-    }
+        public string GetUserIdByName(string name)
+        {
+            return _userCollection.Find(u => u.Name == name).First().Id;
+        }
 
-    public void UpdateUser(DrinkingNerf_Engine.Users.User fromUser)
-    {
-        var update = Builders<User>.Update.Set(u => u.Score, fromUser.Score);
-        _userCollection.UpdateOne(u => u.Id == fromUser.UserId.Id, update);
+        public IEnumerable<User> GetUsers()
+        {
+            return _userCollection.AsQueryable().Select(u => new User()
+            {
+                Name = u.Name,
+                Score = u.Score,
+                UserId = new()
+                {
+                    Id = u.Id
+                }
+            });
+        }
+
+        public void UpdateUser(User fromUser)
+        {
+            var update = Builders<UserModel>.Update.Set(u => u.Score, fromUser.Score);
+            _userCollection.UpdateOne(u => u.Id == fromUser.UserId.Id, update);
+        }
     }
 }

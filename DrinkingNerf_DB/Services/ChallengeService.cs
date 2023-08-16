@@ -1,38 +1,41 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-public class ChallengeService : IChallengesRepository
+namespace DrinkingNerf_DB.Services
 {
-    private readonly IMongoCollection<Challenge> _challengeCollection;
-
-    public ChallengeService(IOptions<DBSettings> dbSettings)
+    public class ChallengeService : IChallengesRepository
     {
-       var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
+        private readonly IMongoCollection<ChallengeModel> _challengeCollection;
 
-       var targetDb = mongoClient.GetDatabase(dbSettings.Value.DBName);
-
-       _challengeCollection = targetDb.GetCollection<Challenge>(dbSettings.Value.UserCollectionName);
-    }
-
-    public IEnumerable<IChallenge> GetChallenges()
-    {
-        foreach(var challenge in _challengeCollection.AsQueryable())
+        public ChallengeService(IOptions<DBSettings> dbSettings)
         {
-            ChallengeContract ctr = new ()
+            var mongoClient = new MongoClient(dbSettings.Value.ConnectionString);
+
+            var targetDb = mongoClient.GetDatabase(dbSettings.Value.DBName);
+
+            _challengeCollection = targetDb.GetCollection<ChallengeModel>(dbSettings.Value.UserCollectionName);
+        }
+
+        public IEnumerable<IChallenge> GetChallenges()
+        {
+            foreach (var challenge in _challengeCollection.AsQueryable())
             {
-                StartDateTime = challenge.Start,
-                EndDateTime = challenge.End,
-                TargetOutcome = Bang.OutcomeEnum.Hit,
-                From = new ()
+                ChallengeContract ctr = new()
                 {
-                    TargetId = new() { Id = challenge.FromUserId }
-                },
-                To = new () 
-                {
-                    TargetId = new () { Id = challenge.ToUserId }
-                }
-            };
-            yield return challenge.IsEvent ? new Event(ctr) : new Task(ctr); 
+                    StartDateTime = challenge.Start,
+                    EndDateTime = challenge.End,
+                    TargetOutcome = Bang.OutcomeEnum.Hit,
+                    From = new()
+                    {
+                        TargetId = new() { Id = challenge.FromUserId }
+                    },
+                    To = new()
+                    {
+                        TargetId = new() { Id = challenge.ToUserId }
+                    }
+                };
+                yield return challenge.IsEvent ? new Event(ctr) : new Task(ctr);
+            }
         }
     }
 }

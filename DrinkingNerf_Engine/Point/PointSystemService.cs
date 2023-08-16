@@ -1,3 +1,4 @@
+using DrinkingNerf_Engine.Challenges;
 using DrinkingNerf_Engine.Users;
 
 public class PointSystemService
@@ -24,6 +25,11 @@ public class PointSystemService
 
         _userServ.UpdateUser(fromUser);
         _userServ.UpdateUser(toUser);
+    }
+
+    public User[] GetLeaderboard()
+    {
+        return _userServ.GetUsers().OrderBy(u => u.Score).ToArray();
     }
 
 }

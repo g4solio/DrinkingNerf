@@ -4,6 +4,7 @@
     {
         TUser GetUser(string id);
         string GetUserIdByName(string name);
+        IEnumerable<TUser> GetUsers();
         void UpdateUser(TUser fromUser);
     }
 }

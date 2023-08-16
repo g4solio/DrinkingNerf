@@ -1,3 +1,5 @@
+using DrinkingNerf_DB.Services;
+using DrinkingNerf_Engine.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +16,10 @@ namespace DrinkingNerf_DB
                     options.DBName = dbConfiguration.GetSection("dbName").Value;
                     options.UserCollectionName = dbConfiguration.GetSection("userCollectionName").Value;
                 });
-            service.AddSingleton<UserService>();
+            service.AddSingleton<Services.UserService>();
+            service.AddTransient<IUserRepository<DrinkingNerf_Engine.Users.User>, Services.UserService>();
+            service.AddTransient<IChallengesRepository, ChallengeService>();
+
         }
     }
 }

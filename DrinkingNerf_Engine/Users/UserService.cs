@@ -24,14 +24,19 @@ namespace DrinkingNerf_Engine.Users
             };
         }
 
-        internal User GetUser(UserId from)
+        public User GetUser(UserId from)
         {
             return _userCtx.GetUser(from.Id);
         }
 
-        internal void UpdateUser(User fromUser)
+        public void UpdateUser(User fromUser)
         {
             _userCtx.UpdateUser(fromUser);
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return _userCtx.GetUsers();
         }
     }
 }

@@ -1,38 +1,41 @@
 using DrinkingNerf_Engine.Users;
 
-public class ChallengeService
+namespace DrinkingNerf_Engine.Challenges
 {
-    public readonly IChallengesRepository _challengesCtx;
-    public ChallengeService(IChallengesRepository challengesRepository)
+    public class ChallengeService
     {
-        _challengesCtx = challengesRepository;
-    }
-
-    public IChallenge[] GetChallengesApplicableFromBang(Bang shotInfo)
-    {
-        bool IsApplicable(IChallenge challenge) => 
-            challenge.IsApplicableFrom(shotInfo.From) 
-            && challenge.IsApplicableTo(shotInfo.To) 
-            && challenge.IsApplicableByTime((DateTimeUniversal)shotInfo.TimeOfBang);
-
-        IEnumerable<IChallenge> FilterChallenges(IEnumerable<IChallenge> challenges)
+        public readonly IChallengesRepository _challengesCtx;
+        public ChallengeService(IChallengesRepository challengesRepository)
         {
-            foreach(var challenge in challenges)
-                if(IsApplicable(challenge))
-                    yield return challenge;
+            _challengesCtx = challengesRepository;
         }
 
-        var challenges = _challengesCtx.GetChallenges();
+        public IChallenge[] GetChallengesApplicableFromBang(Bang shotInfo)
+        {
+            bool IsApplicable(IChallenge challenge) =>
+                challenge.IsApplicableFrom(shotInfo.From)
+                && challenge.IsApplicableTo(shotInfo.To)
+                && challenge.IsApplicableByTime((DateTimeUniversal)shotInfo.TimeOfBang);
 
-        return FilterChallenges(challenges).ToArray();
+            IEnumerable<IChallenge> FilterChallenges(IEnumerable<IChallenge> challenges)
+            {
+                foreach (var challenge in challenges)
+                    if (IsApplicable(challenge))
+                        yield return challenge;
+            }
+
+            var challenges = _challengesCtx.GetChallenges();
+
+            return FilterChallenges(challenges).ToArray();
+        }
+
+        public IChallenge[] GetChallengesVisibleByUser(UserId userId)
+        {
+            IEnumerable<IChallenge> FilterChallenges() =>
+                _challengesCtx.GetChallenges().Where(c => c.IsVisible(userId));
+
+            return FilterChallenges().ToArray();
+        }
+
     }
-
-    public IChallenge[] GetChallengesVisibleByUser(UserId userId)
-    {
-        IEnumerable<IChallenge> FilterChallenges() => 
-            _challengesCtx.GetChallenges().Where(c => c.IsVisible(userId));
-
-        return FilterChallenges().ToArray();
-    }
-
 }

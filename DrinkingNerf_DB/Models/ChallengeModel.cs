@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-public class Challenge
+public class ChallengeModel
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
