@@ -1,0 +1,71 @@
+﻿@page "/{Username}"
+@using DrinkingNerf_Engine.Users;
+@inject UserService userService;
+@inject IJSRuntime JsRuntime;
+@inject PointSystemService pointSystem;
+
+<PageTitle>@UserId.Id</PageTitle>
+
+
+@if (SelectedUser == null)
+{
+    <h3>Select a User:</h3>
+    @foreach (var user in Users)
+    {
+        <button @onclick="() => SelectUser(user)">@user.Name</button>
+    }
+}
+
+@if (SelectedUser != null)
+{
+    <div>
+        <h4>Actions for @SelectedUser.Name:</h4>
+        <button @onclick="() => Bang(true)">Hitted</button>
+        <button @onclick="() => Bang(false)">Missed</button>
+    </div>
+}
+
+
+
+@code
+{
+    [Parameter]
+    public string Username { get; set; }
+
+    protected UserId UserId { get; set; }
+
+    public IEnumerable<User> Users { get; set; }
+
+    public User SelectedUser { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserId = userService.GetUserIdByName(Username);
+        Users = userService.GetUsers().Where(u => u.UserId.Id != UserId.Id);
+    }
+
+    public void SelectUser(User target)
+    {
+        SelectedUser = target;
+    }
+
+    public void Bang(bool isHitted)
+    {
+        pointSystem.RegisterBang(new global::Bang()
+        {
+            From = UserId,
+            To = SelectedUser.UserId,
+            TimeOfBang = DateTime.Now,
+            Outcome = isHitted ? global::Bang.OutcomeEnum.Hit : global::Bang.OutcomeEnum.Missed
+        });
+
+        PerformActionAlert($"{(isHitted ? "Hit" : "Miss")} has been registered to {SelectedUser.Name}");
+    }
+
+    private async Task PerformActionAlert(string message)
+    {
+        await JsRuntime.InvokeVoidAsync("alert", $"{message}");
+    }
+
+}

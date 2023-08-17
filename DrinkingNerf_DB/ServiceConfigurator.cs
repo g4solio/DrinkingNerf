@@ -2,6 +2,7 @@ using DrinkingNerf_DB.Services;
 using DrinkingNerf_Engine.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace DrinkingNerf_DB
 {
@@ -17,9 +18,9 @@ namespace DrinkingNerf_DB
                     options.UserCollectionName = dbConfiguration.GetSection("userCollectionName").Value;
                     options.ChallengeCollectionName = dbConfiguration.GetSection("challengeCollectionName").Value;
                 });
-            service.AddSingleton<Services.UserService>();
-            service.AddTransient<IUserRepository<DrinkingNerf_Engine.Users.User>, Services.UserService>();
-            service.AddTransient<IChallengesRepository, ChallengeService>();
+            //service.AddSingleton<Services.UserService>();
+            service.AddSingleton<IUserRepository<DrinkingNerf_Engine.Users.User>, Services.UserService>();
+            service.AddSingleton<IChallengesRepository, ChallengeService>();
 
         }
     }

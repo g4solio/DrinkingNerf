@@ -3,25 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkingNerf", "DrinkingNerf\DrinkingNerf.csproj", "{CF881769-9811-4F0C-B885-29188EDAFA4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkingNerf_Engine", "DrinkingNerf_Engine\DrinkingNerf_Engine.csproj", "{C4307306-4719-4521-A150-9331AABE5555}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkingNerf_Engine", "DrinkingNerf_Engine\DrinkingNerf_Engine.csproj", "{C4307306-4719-4521-A150-9331AABE5555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkingNerf_DB", "DrinkingNerf_DB\DrinkingNerf_DB.csproj", "{648CEBF7-214D-4CD6-A68E-A48445D93D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkingNerf_DB", "DrinkingNerf_DB\DrinkingNerf_DB.csproj", "{648CEBF7-214D-4CD6-A68E-A48445D93D6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkingNerf_Blazor", "DrinkingNerf_Blazor\DrinkingNerf_Blazor.csproj", "{5EA6FB85-067A-40C8-A54E-1A3D15536681}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CF881769-9811-4F0C-B885-29188EDAFA4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF881769-9811-4F0C-B885-29188EDAFA4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF881769-9811-4F0C-B885-29188EDAFA4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF881769-9811-4F0C-B885-29188EDAFA4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4307306-4719-4521-A150-9331AABE5555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4307306-4719-4521-A150-9331AABE5555}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4307306-4719-4521-A150-9331AABE5555}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +23,15 @@ Global
 		{648CEBF7-214D-4CD6-A68E-A48445D93D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{648CEBF7-214D-4CD6-A68E-A48445D93D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{648CEBF7-214D-4CD6-A68E-A48445D93D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA6FB85-067A-40C8-A54E-1A3D15536681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA6FB85-067A-40C8-A54E-1A3D15536681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA6FB85-067A-40C8-A54E-1A3D15536681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA6FB85-067A-40C8-A54E-1A3D15536681}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {437EDF32-09FF-412B-893E-71F95D7506BE}
 	EndGlobalSection
 EndGlobal

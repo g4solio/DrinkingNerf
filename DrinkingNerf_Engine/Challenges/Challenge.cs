@@ -9,10 +9,10 @@ public abstract class Challenge : IChallenge
         _contract = contract;
     }
 
-    public void Apply(Bang bang, User from, User to)
+    public void Apply(Bang bang, ref int HitBonus, ref int DamageMalus)
     {
-        from.Score += _contract.From.Modifier(RULE_SET.HitReward);
-        to.Score -= _contract.To.Modifier(RULE_SET.DamageMalus);
+        HitBonus += _contract.From.Modifier(HitBonus);
+        DamageMalus -= _contract.To.Modifier(DamageMalus);
     }
 
     public bool IsApplicableByTime(DateTimeUniversal time)

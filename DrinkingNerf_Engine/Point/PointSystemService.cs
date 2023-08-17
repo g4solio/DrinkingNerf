@@ -20,8 +20,14 @@ public class PointSystemService
         var fromUser = _userServ.GetUser(bang.From);
         var toUser = _userServ.GetUser(bang.To);
 
+        int hitReward = RULE_SET.HitReward;
+        int damageMalus = RULE_SET.DamageMalus;
+
         foreach(var challenge in applicableChallenges)
-            challenge.Apply(bang, from: fromUser, to: toUser);
+            challenge.Apply(bang, ref hitReward, ref damageMalus);
+
+        fromUser.Score += hitReward;
+        toUser.Score -= damageMalus;
 
         _userServ.UpdateUser(fromUser);
         _userServ.UpdateUser(toUser);

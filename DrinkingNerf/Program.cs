@@ -12,12 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 DrinkingNerf_DB.ServiceConfigurator.Configure(builder.Services, builder.Configuration.GetSection("DBSettings"));
 
-builder.Services.AddTransient<ChallengeService>();
-builder.Services.AddTransient<UserService>();
-builder.Services.AddTransient<PointSystemService>();
-
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+builder.Services.AddSingleton<ChallengeService>();
+builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<PointSystemService>();
 
 
 await builder.Build().RunAsync();
