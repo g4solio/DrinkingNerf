@@ -15,5 +15,9 @@ namespace DrinkingNerf_DB.Models
         [BsonElement("Score")]
         public int Score { get; set; }
 
+        public int Ammunitions { get; set; }
+
+        public DateTime NextResetAmmo { get; set; }
+
     }
 }

@@ -6,22 +6,30 @@
 
 <PageTitle>@UserId.Id</PageTitle>
 
+<p>
+    Ammunitions:
+    <br />
+    @for(int i = 0; i < RemainingBangs; i++)
+    {
+        <img src="bullet.png" alt="Ammo" />
+    }
+</p>
 
-@if (SelectedUser == null)
+@if (SelectedUser == null && RemainingBangs > 0)
 {
     <h3>Select a User:</h3>
     @foreach (var user in Users)
     {
-        <button @onclick="() => SelectUser(user)">@user.Name</button>
+        <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
     }
 }
 
-@if (SelectedUser != null)
+@if (SelectedUser != null && RemainingBangs > 0)
 {
     <div>
         <h4>Actions for @SelectedUser.Name:</h4>
-        <button @onclick="() => Bang(true)">Hitted</button>
-        <button @onclick="() => Bang(false)">Missed</button>
+        <button class="btn btn-success" @onclick="() => Bang(true)">Hitted</button>
+        <button class="btn btn-danger" @onclick="() => Bang(false)">Missed</button>
     </div>
 }
 
@@ -34,6 +42,8 @@
 
     protected UserId UserId { get; set; }
 
+    public int RemainingBangs { get; set; }
+
     public IEnumerable<User> Users { get; set; }
 
     public User SelectedUser { get; set; }
@@ -43,6 +53,7 @@
         base.OnInitialized();
         UserId = userService.GetUserIdByName(Username);
         Users = userService.GetUsers().Where(u => u.UserId.Id != UserId.Id);
+        RemainingBangs = userService.GetUser(UserId).Ammunitions;
     }
 
     public void SelectUser(User target)
@@ -61,6 +72,7 @@
         });
 
         PerformActionAlert($"{(isHitted ? "Hit" : "Miss")} has been registered to {SelectedUser.Name}");
+        RemainingBangs = userService.GetUser(UserId).Ammunitions;
     }
 
     private async Task PerformActionAlert(string message)

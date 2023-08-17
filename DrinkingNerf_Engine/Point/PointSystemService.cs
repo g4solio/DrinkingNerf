@@ -15,10 +15,13 @@ public class PointSystemService
 
     public void RegisterBang(Bang bang)
     {
-        var applicableChallenges = _challengeServ.GetChallengesApplicableFromBang(bang);
 
         var fromUser = _userServ.GetUser(bang.From);
         var toUser = _userServ.GetUser(bang.To);
+
+        if (fromUser.Ammunitions < 1) return;
+
+        var applicableChallenges = _challengeServ.GetChallengesApplicableFromBang(bang);
 
         int hitReward = RULE_SET.HitReward;
         int damageMalus = RULE_SET.DamageMalus;
@@ -29,13 +32,15 @@ public class PointSystemService
         fromUser.Score += hitReward;
         toUser.Score -= damageMalus;
 
+        fromUser.Ammunitions--;
+
         _userServ.UpdateUser(fromUser);
         _userServ.UpdateUser(toUser);
     }
 
     public User[] GetLeaderboard()
     {
-        return _userServ.GetUsers().OrderBy(u => u.Score).ToArray();
+        return _userServ.GetUsers().OrderByDescending(u => u.Score).ToArray();
     }
 
 }

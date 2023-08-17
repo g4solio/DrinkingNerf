@@ -22,15 +22,7 @@ namespace DrinkingNerf_DB.Services
         {
             var dataSource = _userCollection.Find(u => u.Id == id).Single();
 
-            return new()
-            {
-                UserId = new()
-                {
-                    Id = dataSource.Id
-                },
-                Name = dataSource.Name,
-                Score = dataSource.Score
-            };
+            return MapUserDto(dataSource);
         }
 
         public string GetUserIdByName(string name)
@@ -40,20 +32,34 @@ namespace DrinkingNerf_DB.Services
 
         public IEnumerable<User> GetUsers()
         {
-            return _userCollection.AsQueryable().Select(u => new User()
+            foreach(var uDTO in _userCollection.AsQueryable())
+                yield return MapUserDto(uDTO);
+        }
+
+        private User MapUserDto(UserModel u)
+        {
+            if(DateTime.Now > u.NextResetAmmo)
+            {
+                u.NextResetAmmo = DateTime.Today.AddDays(1);
+                u.Ammunitions = RULE_SET.DefaultAmmo; //TODO rewrite to bring RULE access to engine project
+                _userCollection.ReplaceOne(x => x.Id == u.Id, u);
+            }
+
+            return new User()
             {
                 Name = u.Name,
                 Score = u.Score,
                 UserId = new()
                 {
                     Id = u.Id
-                }
-            });
+                },
+                Ammunitions = u.Ammunitions
+            };
         }
 
         public void UpdateUser(User fromUser)
         {
-            var update = Builders<UserModel>.Update.Set(u => u.Score, fromUser.Score);
+            var update = Builders<UserModel>.Update.Set(u => u.Score, fromUser.Score).Set(u => u.Ammunitions, fromUser.Ammunitions);
             _userCollection.UpdateOne(u => u.Id == fromUser.UserId.Id, update);
         }
     }
