@@ -1,3 +1,4 @@
+using AngouriMath;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -27,15 +28,30 @@ namespace DrinkingNerf_DB.Services
                     TargetOutcome = Bang.OutcomeEnum.Hit,
                     From = new()
                     {
-                        TargetId = new() { Id = challenge.FromUserId }
+                        TargetId = new() { Id = challenge.FromUserId },
+                        Modifier = BuildModifier(challenge.Formula)
                     },
                     To = new()
                     {
-                        TargetId = new() { Id = challenge.ToUserId }
-                    }
+                        TargetId = new() { Id = challenge.ToUserId },
+                        Modifier = (value) => value
+                    },
+                    
                 };
                 yield return challenge.IsEvent ? new Event(ctr) : new Task(ctr);
             }
+        }
+
+        private UserChallengeContext.BonusModifier BuildModifier(string formula)
+        {
+            if (string.IsNullOrEmpty(formula))
+                return (value) => value;
+
+            return (value) =>
+            {
+                Entity expr = formula.Replace("x", value.ToString());
+                return (int)expr.EvalNumerical();
+            };
         }
     }
 }

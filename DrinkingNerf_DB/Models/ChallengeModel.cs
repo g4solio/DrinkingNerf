@@ -18,4 +18,6 @@ public class ChallengeModel
     public DateTime End {get;set;}
 
     public bool IsEvent {get;set;}
+
+    public string Formula { get; set; }
 }
