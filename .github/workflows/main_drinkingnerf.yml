@@ -9,12 +9,6 @@ on:
       - main
   workflow_dispatch:
 
-variables:
-  Data.DebugMode: disabled
-  Data.DefaultConnection.ConnectionString: 'Data Source=(prodDB)\MSDB;AttachDbFilename=prod.mdf;'
-  Data.DBAccess.Users.0: Admin-3
-  Data.FeatureFlags.Preview.1.NewWelcomeMessage: AllAccounts
-
 jobs:
   build:
     runs-on: windows-latest
