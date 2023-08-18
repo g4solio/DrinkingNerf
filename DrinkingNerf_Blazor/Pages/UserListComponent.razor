@@ -1,4 +1,5 @@
 ﻿@using DrinkingNerf_Engine.Users;
+@using Microsoft.AspNetCore.Mvc;
 @inject UserService userService
 
 <div class="user-list">
@@ -16,11 +17,35 @@
             {
                 <tr>
                     <td>@user.Name</td>
-                    <td>@user.Score</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteUser(user)">
-                            <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
-                        </button>
+                        @if (user.UserId.Id == editingUser?.UserId.Id)
+                        {
+                            <input type="text" @bind="editingUser.Score" />
+                        }
+                        else
+                        {
+                            @user.Score
+                        }
+                    </td>
+                    <td>
+                        @if (user.UserId.Id == editingUser?.UserId.Id)
+                        {
+                            <button class="btn btn-success btn-sm" @onclick="() => SaveUser(user)">
+                                Save
+                            </button>
+                            <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">
+                                Cancel
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm" @onclick="() => DeleteUser(user)">
+                                Delete
+                            </button>
+                            <button class="btn btn-primary btn-sm" @onclick="() => EditUser(user)">
+                                Edit
+                            </button>
+                        }
                     </td>
                 </tr>
             }
@@ -30,7 +55,15 @@
 
 @code
 {
-    public IEnumerable<User> Users => userService.GetUsers();
+    public IEnumerable<User> Users;
+    private User editingUser = null;
+
+    private int newScore;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Users = userService.GetUsers();
+    }
 
     public void DeleteUser(User user)
     {
@@ -40,5 +73,25 @@
     public void Refresh()
     {
         StateHasChanged();
+    }
+
+    private async Task EditUser(User user)
+    {
+        editingUser = user;
+        Refresh();
+    }
+
+    private async Task SaveUser(User user)
+    {
+        user.Score = editingUser.Score;
+        userService.UpdateUser(user);
+        editingUser = null;
+        Refresh();
+    }
+
+    private async Task CancelEdit()
+    {
+        editingUser = null;
+        Refresh();
     }
 }

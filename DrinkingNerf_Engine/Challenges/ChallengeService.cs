@@ -37,5 +37,10 @@ namespace DrinkingNerf_Engine.Challenges
             return FilterChallenges().ToArray();
         }
 
+        public IEnumerable<IChallenge> GetChallenges()
+        {
+            return _challengesCtx.GetChallenges();
+        }
+
     }
 }

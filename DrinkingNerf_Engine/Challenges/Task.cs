@@ -3,7 +3,7 @@ using DrinkingNerf_Engine.Users;
 
 public class Task : Challenge
 {
-    public Task(ChallengeContract contract) : base(contract)
+    public Task(ChallengeContract contract, string name) : base(contract, name)
     {
     }
 

@@ -38,7 +38,7 @@ namespace DrinkingNerf_DB.Services
                     },
                     
                 };
-                yield return challenge.IsEvent ? new Event(ctr) : new Task(ctr);
+                yield return challenge.IsEvent ? new Event(ctr, challenge.Name) : new Task(ctr, challenge.Name);
             }
         }
 
@@ -53,5 +53,7 @@ namespace DrinkingNerf_DB.Services
                 return (int)expr.EvalNumerical();
             };
         }
+
+
     }
 }

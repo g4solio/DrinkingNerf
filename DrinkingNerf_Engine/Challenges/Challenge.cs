@@ -3,16 +3,18 @@ using DrinkingNerf_Engine.Users;
 public abstract class Challenge : IChallenge
 {
     protected readonly ChallengeContract _contract;
+    public readonly string Name;
 
-    protected Challenge(ChallengeContract contract)
+    protected Challenge(ChallengeContract contract, string name)
     {
         _contract = contract;
+        this.Name = name;
     }
 
     public void Apply(Bang bang, ref int HitBonus, ref int DamageMalus)
     {
-        HitBonus += _contract.From.Modifier(HitBonus);
-        DamageMalus -= _contract.To.Modifier(DamageMalus);
+        HitBonus = _contract.From.Modifier(HitBonus);
+        DamageMalus = _contract.To.Modifier(DamageMalus);
     }
 
     public bool IsApplicableByTime(DateTimeUniversal time)

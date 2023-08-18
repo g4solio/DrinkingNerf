@@ -1,0 +1,195 @@
+﻿@using DrinkingNerf_DB.Services;
+@using DrinkingNerf_Engine.Users;
+@inject ChallengeModelService challengeService
+@inject DrinkingNerf_Engine.Users.UserService userService;
+<div class="user-list">
+    <h2>Event List</h2>
+    <button class="btn btn-primary" @onclick="() => CreateNewChallenge(true)">Create New Event</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Shooter</th>
+                <th>Target</th>
+                <th>Formula</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th></th> <!-- Column for delete icon -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eventChallenge in Challenges.Where(c => c.IsEvent))
+            {
+                <tr>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <input type="text" @bind="editingChallenge.Name" />
+                        }
+                        else
+                        {
+                            @eventChallenge.Name
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <select @bind="editingChallenge.FromUserId">
+                                @foreach(var user in userService.GetUsers())
+                                {
+                                    <option value="@user.UserId.Id"> @user.Name</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            @GetUser(eventChallenge.FromUserId)?.Name
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <select @bind="editingChallenge.ToUserId">
+                                @foreach (var user in userService.GetUsers())
+                                {
+                                    <option value="@user.UserId.Id"> @user.Name</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            @GetUser(eventChallenge.ToUserId)?.Name
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <input type="text" @bind="editingChallenge.Formula"/>
+                        }
+                        else
+                        {
+                            @eventChallenge.Formula
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <input type="date" @onchange="HandleDateChangeStart" />
+                        }
+                        else
+                        {
+                            @eventChallenge.Start.ToShortDateString();
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <input type="date" @onchange="HandleDateChangeEnd" />
+                        }
+                        else
+                        {
+                            @eventChallenge.End.ToShortDateString();
+                        }
+                    </td>
+                    <td>
+                        @if (eventChallenge.Id == editingChallenge?.Id)
+                        {
+                            <button class="btn btn-success btn-sm" @onclick="() => Save()">
+                                Save
+                            </button>
+                            <button class="btn btn-secondary btn-sm" @onclick="() => CancelEdit()">
+                                Cancel
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm" @onclick="() => Delete(eventChallenge)">
+                                Delete
+                            </button>
+                            <button class="btn btn-primary btn-sm" @onclick="() => Edit(eventChallenge)">
+                                Edit
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    public IEnumerable<ChallengeModel> Challenges;
+    private ChallengeModel editingChallenge = null;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Challenges = challengeService.GetChallenges();
+    }
+
+    public void Delete(ChallengeModel challenge)
+    {
+        challengeService.Delete(challenge);
+    }
+
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+
+    private async Task Edit(ChallengeModel challenge)
+    {
+        editingChallenge = challenge;
+        Refresh();
+    }
+
+    private async Task Save()
+    {
+        challengeService.Update(editingChallenge);
+        editingChallenge = null;
+        Refresh();
+    }
+
+    private async Task CancelEdit()
+    {
+        editingChallenge = null;
+        Refresh();
+    }
+
+    private User GetUser(string id)
+    {
+        return userService.GetUser(new UserId() { Id = id });
+    }
+
+    private void CreateNewChallenge(bool isEvent)
+    {
+        // Create a new instance of ChallengeModel and set default values
+        var tmp = new ChallengeModel
+            {
+                IsEvent = isEvent,
+                Name = "New Challenge",
+                FromUserId = "", // Set the default FromUserId
+                ToUserId = "",   // Set the default ToUserId
+                Formula = "",    // Set the default Formula
+            };
+        challengeService.Add(tmp);
+        Refresh();
+    }
+
+    private void HandleDateChangeStart(ChangeEventArgs e)
+    {
+        if (editingChallenge != null && DateTime.TryParse(e.Value.ToString(), out DateTime selectedDate))
+        {
+            editingChallenge.Start = selectedDate;
+        }
+    }
+
+    private void HandleDateChangeEnd(ChangeEventArgs e)
+    {
+        if (editingChallenge != null && DateTime.TryParse(e.Value.ToString(), out DateTime selectedDate))
+        {
+            editingChallenge.End = selectedDate;
+        }
+    }
+}

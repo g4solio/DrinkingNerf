@@ -20,6 +20,8 @@ namespace DrinkingNerf_DB.Services
 
         public User GetUser(string id)
         {
+            if (string.IsNullOrEmpty(id)) return null;
+
             var dataSource = _userCollection.Find(u => u.Id == id).Single();
 
             return MapUserDto(dataSource);

@@ -9,29 +9,18 @@
     <!-- List of users with edit and delete options -->
 
     <h2>Challenge Management</h2>
-    <button @onclick="ShowAddChallengeModal">Add Challenge</button>
-    <AddChallengeModal @ref="addChallengeModal" OnChallengeAdded="HandleChallengeAdded" />
+    <ChallengeListComponent />
 
     <!-- List of challenges with edit and delete options -->
     <!-- Rest of your admin page content -->
 </div>
 
-@code {
-    private AddChallengeModal addChallengeModal;
+@code 
+{
     private UserListComponent userList;
-
-    void ShowAddChallengeModal()
-    {
-        addChallengeModal.Show();
-    }
 
     async Task HandleUserAdded()
     {
         userList.Refresh();
-    }
-
-    async Task HandleChallengeAdded(string newChallengeName)
-    {
-        // Update challenge list or perform necessary actions
     }
 }

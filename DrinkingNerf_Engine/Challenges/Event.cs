@@ -2,7 +2,7 @@ using DrinkingNerf_Engine.Users;
 
 public class Event : Challenge
 {
-    public Event(ChallengeContract contract) : base(contract)
+    public Event(ChallengeContract contract, string name) : base(contract, name)
     {
     }
 

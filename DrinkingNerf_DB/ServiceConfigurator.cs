@@ -21,6 +21,7 @@ namespace DrinkingNerf_DB
             //service.AddSingleton<Services.UserService>();
             service.AddSingleton<IUserRepository<DrinkingNerf_Engine.Users.User>, Services.UserService>();
             service.AddSingleton<IChallengesRepository, ChallengeService>();
+            service.AddSingleton<ChallengeModelService>();
 
         }
     }
