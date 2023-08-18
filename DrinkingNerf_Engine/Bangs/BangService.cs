@@ -10,10 +10,12 @@ namespace DrinkingNerf_Engine.Bangs
     public class BangService
     {
         protected readonly IBangRepository _bangRepository;
+        private readonly UserService _userService;
 
-        public BangService(IBangRepository bangRepository)
+        public BangService(IBangRepository bangRepository, UserService userService)
         {
             _bangRepository = bangRepository;
+            _userService = userService;
         }
 
         public void RegisterBangOutcome(BangOutcome bangOutcome)
@@ -21,7 +23,7 @@ namespace DrinkingNerf_Engine.Bangs
             _bangRepository.Add(bangOutcome);
         }
 
-        public BangOutcome[] GetBangs => _bangRepository.GetBangs().OrderByDescending(b => b.DateTime).ToArray();
+        public BangOutcome[] GetBangs() => _bangRepository.GetBangs().OrderByDescending(b => b.DateTime).ToArray();
 
         public BangOutcome[] GetBangsFromShooterId(UserId shooterId)
         {
@@ -49,6 +51,19 @@ namespace DrinkingNerf_Engine.Bangs
 
 
             return todayBangs.Aggregate(0, (acc, bang) => acc += (bang.Outcome == Bang.OutcomeEnum.Hit ? 1 : 0)) % RULE_SET.HitToRegainAmmo == 0;
+        }
+
+        public void DeleteBang(BangOutcome bang)
+        {
+            var shooterUser = _userService.GetUser(bang.Shooter);
+
+            shooterUser.Score -= bang.ShooterHitScoreModificator;
+
+            if (shooterUser.Ammunitions < RULE_SET.DefaultAmmo)
+                shooterUser.Ammunitions++;
+
+            _bangRepository.Delete(bang);
+            _userService.UpdateUser(shooterUser);
         }
     }
 }
