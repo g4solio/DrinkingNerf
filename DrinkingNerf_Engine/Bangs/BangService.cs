@@ -48,7 +48,7 @@ namespace DrinkingNerf_Engine.Bangs
             var todayBangs = GetBangsFromShooterId(shooterId).Where(b => b.DateTime.Day == DateTime.Today.Day);
 
 
-            return todayBangs.Aggregate(0, (acc, bang) => acc += (bang.Outcome == Bang.OutcomeEnum.Hit ? 1 : 0)) % RULE_SET.HitReward == 0;
+            return todayBangs.Aggregate(0, (acc, bang) => acc += (bang.Outcome == Bang.OutcomeEnum.Hit ? 1 : 0)) % RULE_SET.HitToRegainAmmo == 0;
         }
     }
 }
