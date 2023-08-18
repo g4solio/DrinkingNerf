@@ -15,7 +15,7 @@ namespace DrinkingNerf_Engine.Challenges
             bool IsApplicable(IChallenge challenge) =>
                 challenge.IsApplicableFrom(shotInfo.From)
                 && challenge.IsApplicableTo(shotInfo.To)
-                && challenge.IsApplicableByTime((DateTimeUniversal)shotInfo.TimeOfBang);
+                && challenge.IsApplicableByTime(shotInfo.TimeOfBang);
 
             IEnumerable<IChallenge> FilterChallenges(IEnumerable<IChallenge> challenges)
             {

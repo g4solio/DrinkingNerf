@@ -1,8 +1,10 @@
 ﻿@page "/{Username}"
+@using DrinkingNerf_Engine.Challenges;
 @using DrinkingNerf_Engine.Users;
 @inject UserService userService;
 @inject IJSRuntime JsRuntime;
 @inject PointSystemService pointSystem;
+@inject ChallengeService challengeService;
 
 <PageTitle>@UserId.Id</PageTitle>
 
@@ -35,6 +37,59 @@
     </div>
 }
 
+<div class="user-list">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Event List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Shooter</th>
+                        <th>Target</th>
+                        <!-- ... Other columns ... -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var eventChallenge in Challenges.Where(c => c is Event))
+                    {
+                        <tr>
+                            <td>@eventChallenge.Name()</td>
+                            <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
+                            <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
+                            <!-- ... Other columns ... -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2>Task List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Target</th>
+                        <!-- ... Other columns ... -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
+                    {
+                        <tr>
+                            <td>@taskChallenge.Name()</td>
+                            <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
+                            <!-- ... Other columns ... -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 
 
 @code
@@ -50,12 +105,15 @@
 
     public User SelectedUser { get; set; }
 
+    public IEnumerable<IChallenge> Challenges { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         UserId = userService.GetUserIdByName(Username);
         Users = userService.GetUsers().Where(u => u.UserId.Id != UserId.Id);
         RemainingBangs = userService.GetUser(UserId).Ammunitions;
+        Challenges = challengeService.GetChallengesVisibleByUser(UserId);
     }
 
     public void SelectUser(User target)
@@ -77,7 +135,7 @@
         RemainingBangs = userService.GetUser(UserId).Ammunitions;
     }
 
-    private async Task PerformActionAlert(string message)
+    private async System.Threading.Tasks.Task PerformActionAlert(string message)
     {
         await JsRuntime.InvokeVoidAsync("alert", $"{message}");
     }

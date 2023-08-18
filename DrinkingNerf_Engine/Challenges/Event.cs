@@ -1,13 +1,16 @@
 using DrinkingNerf_Engine.Users;
 
-public class Event : Challenge
+namespace DrinkingNerf_Engine.Challenges
 {
-    public Event(ChallengeContract contract, string name) : base(contract, name)
+    public class Event : Challenge
     {
-    }
+        public Event(ChallengeContract contract, string name) : base(contract, name)
+        {
+        }
 
-    public override bool IsVisible(UserId userId)
-    {
-        return true;
+        public override bool IsVisible(UserId userId)
+        {
+            return DateTime.Today <= _contract.EndDateTime.Date && DateTime.Today >= _contract.StartDateTime.Date;
+        }
     }
 }

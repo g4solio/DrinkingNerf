@@ -1,14 +1,17 @@
 using System.Diagnostics.Contracts;
 using DrinkingNerf_Engine.Users;
 
-public class Task : Challenge
+namespace DrinkingNerf_Engine.Challenges
 {
-    public Task(ChallengeContract contract, string name) : base(contract, name)
+    public class Task : Challenge
     {
-    }
+        public Task(ChallengeContract contract, string name) : base(contract, name)
+        {
+        }
 
-    public override bool IsVisible(UserId userId)
-    {
-        return this._contract.From.TargetId.Equals(userId) || _contract.To.TargetId.Equals(userId);
+        public override bool IsVisible(UserId userId)
+        {
+            return _contract.From.TargetId.Equals(userId) && DateTime.Today <= _contract.EndDateTime.Date && DateTime.Today >= _contract.StartDateTime.Date;
+        }
     }
 }

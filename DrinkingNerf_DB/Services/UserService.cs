@@ -22,14 +22,14 @@ namespace DrinkingNerf_DB.Services
         {
             if (string.IsNullOrEmpty(id)) return null;
 
-            var dataSource = _userCollection.Find(u => u.Id == id).Single();
+            var dataSource = _userCollection.Find(u => u.Id == id).SingleOrDefault();
 
             return MapUserDto(dataSource);
         }
 
         public string GetUserIdByName(string name)
         {
-            return _userCollection.Find(u => u.Name == name).First().Id;
+            return _userCollection.Find(u => u.Name == name).FirstOrDefault()?.Id;
         }
 
         public IEnumerable<User> GetUsers()
@@ -40,14 +40,15 @@ namespace DrinkingNerf_DB.Services
 
         private User MapUserDto(UserModel u)
         {
+            if (u == null) return null;
             if(DateTime.Now > u.NextResetAmmo)
             {
-                u.NextResetAmmo = DateTime.Today.AddDays(1);
+                u.NextResetAmmo = DateTime.Today.AddDays(1).Date;
                 u.Ammunitions = RULE_SET.DefaultAmmo; //TODO rewrite to bring RULE access to engine project
                 _userCollection.ReplaceOne(x => x.Id == u.Id, u);
             }
 
-            return new User()
+            return new User()   
             {
                 Name = u.Name,
                 Score = u.Score,

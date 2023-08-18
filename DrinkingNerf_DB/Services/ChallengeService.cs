@@ -1,4 +1,5 @@
 using AngouriMath;
+using DrinkingNerf_Engine.Challenges;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -38,7 +39,7 @@ namespace DrinkingNerf_DB.Services
                     },
                     
                 };
-                yield return challenge.IsEvent ? new Event(ctr, challenge.Name) : new Task(ctr, challenge.Name);
+                yield return challenge.IsEvent ? new Event(ctr, challenge.Name) : new DrinkingNerf_Engine.Challenges.Task(ctr, challenge.Name);
             }
         }
 

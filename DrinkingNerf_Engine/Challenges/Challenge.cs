@@ -17,9 +17,9 @@ public abstract class Challenge : IChallenge
         DamageMalus = _contract.To.Modifier(DamageMalus);
     }
 
-    public bool IsApplicableByTime(DateTimeUniversal time)
+    public bool IsApplicableByTime(DateTime time)
     {
-        return time < _contract.EndDateTime.ToUniversalTime() && time > _contract.StartDateTime.ToUniversalTime();
+        return time.Date <= _contract.EndDateTime.Date && time.Date >= _contract.StartDateTime.Date;
     }
 
     public bool IsApplicableFrom(UserId userId)
@@ -33,20 +33,13 @@ public abstract class Challenge : IChallenge
     }
 
     public abstract bool IsVisible(UserId userId);
+
+    string IChallenge.Name() => Name;
+    public UserId Target() => _contract.To.TargetId;
+
+    public UserId Shooter() => _contract.From.TargetId;
 }
 
-public class DateTimeUniversal
-{
-    private readonly DateTime _this;
-
-    public DateTimeUniversal(DateTime original)
-    {
-        _this = original.ToUniversalTime();
-    }
-
-    public static implicit operator DateTime(DateTimeUniversal universalTime) => universalTime._this;
-    public static explicit operator DateTimeUniversal(DateTime original) => new(original.ToUniversalTime());
-}
 
 public class ChallengeContract
 {
