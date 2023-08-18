@@ -20,7 +20,7 @@ jobs:
         with:
           files: '**/appsettings.json'
         env:
-          DBSettings.dbConfiguration: "$MONGODB"
+          DBSettings.dbConfiguration: ${{ secrets.MONGODB }}
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
