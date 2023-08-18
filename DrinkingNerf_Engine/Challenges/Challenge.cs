@@ -13,6 +13,7 @@ public abstract class Challenge : IChallenge
 
     public void Apply(Bang bang, ref int HitBonus, ref int DamageMalus)
     {
+        if (bang.Outcome == Bang.OutcomeEnum.Missed) return;
         HitBonus = _contract.From.Modifier(HitBonus);
         DamageMalus = _contract.To.Modifier(DamageMalus);
     }

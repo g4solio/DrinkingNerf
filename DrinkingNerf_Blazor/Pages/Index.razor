@@ -1,10 +1,12 @@
 ﻿@page "/{Username}"
+@using DrinkingNerf_Engine.Bangs;
 @using DrinkingNerf_Engine.Challenges;
 @using DrinkingNerf_Engine.Users;
 @inject UserService userService;
 @inject IJSRuntime JsRuntime;
 @inject PointSystemService pointSystem;
 @inject ChallengeService challengeService;
+@inject BangService bangService;
 
 <PageTitle>@UserId.Id</PageTitle>
 
@@ -37,7 +39,7 @@
     </div>
 }
 
-<div class="user-list">
+<div class="challenge-list">
 
     <div class="row">
         <div class="col-md-6">
@@ -90,6 +92,67 @@
 </div>
 
 
+<div class="bang-list">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Shot List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Target</th>
+                        <th>Hit/Miss</th>
+                        <th>Reward</th>
+                        <th>Time</th>
+                        <!-- ... Other columns ... -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bang in bangService.GetBangsFromShooterId(UserId))
+                    {
+                        <tr>
+                            <td>@userService.GetUser(bang.Target)?.Name</td>
+                            <td>
+                                @if(@bang.Outcome == global::Bang.OutcomeEnum.Hit)
+                                {
+                                    <div>✅</div>
+                                }else
+                                {
+                                    <div>❌</div>
+                                }
+                            </td>
+                            <td> + @bang.ShooterHitScoreModificator </td>
+                            <td>@bang.DateTime</td>
+                            <!-- ... Other columns ... -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2>Hit Received List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Shooter</th>
+                        <th>Time</th>
+                        <!-- ... Other columns ... -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bang in bangService.GetBangsFromTargetId(UserId))
+                    {
+                        <tr>
+                            <td>@userService.GetUser(bang.Shooter)?.Name</td>
+                            <td>@bang.DateTime</td>
+                            <!-- ... Other columns ... -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 @code

@@ -1,4 +1,5 @@
 using DrinkingNerf_DB;
+using DrinkingNerf_Engine.Bangs;
 using DrinkingNerf_Engine.Challenges;
 using DrinkingNerf_Engine.Users;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +16,7 @@ ServiceConfigurator.Configure(builder.Services, builder.Configuration.GetSection
 builder.Services.AddSingleton<ChallengeService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<PointSystemService>();
+builder.Services.AddSingleton<BangService>();
 
 var app = builder.Build();
 

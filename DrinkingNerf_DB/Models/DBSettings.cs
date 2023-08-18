@@ -6,4 +6,5 @@ public class DBSettings
 
     public string UserCollectionName {get; set;}
     public string ChallengeCollectionName { get; set; }
+    public string BangCollectionName { get; set; }
 }
