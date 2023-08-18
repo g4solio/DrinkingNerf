@@ -1,0 +1,44 @@
+﻿@using DrinkingNerf_Engine.Users;
+@inject UserService userService
+
+<div class="user-list">
+    <h2>User List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th></th> <!-- Column for delete icon -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Score</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteUser(user)">
+                            <i class="bi bi-trash"></i> <!-- Bootstrap trash icon -->
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    public IEnumerable<User> Users => userService.GetUsers();
+
+    public void DeleteUser(User user)
+    {
+        userService.DeleteUser(user);
+    }
+
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+}

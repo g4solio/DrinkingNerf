@@ -1,0 +1,37 @@
+﻿@page "/admin"
+
+<h3>Admin</h3>
+
+<div class="admin-page">
+    <h2>User Management</h2>
+    <AddUserModal OnUserAdded=HandleUserAdded />
+    <UserListComponent @ref=userList/>
+    <!-- List of users with edit and delete options -->
+
+    <h2>Challenge Management</h2>
+    <button @onclick="ShowAddChallengeModal">Add Challenge</button>
+    <AddChallengeModal @ref="addChallengeModal" OnChallengeAdded="HandleChallengeAdded" />
+
+    <!-- List of challenges with edit and delete options -->
+    <!-- Rest of your admin page content -->
+</div>
+
+@code {
+    private AddChallengeModal addChallengeModal;
+    private UserListComponent userList;
+
+    void ShowAddChallengeModal()
+    {
+        addChallengeModal.Show();
+    }
+
+    async Task HandleUserAdded()
+    {
+        userList.Refresh();
+    }
+
+    async Task HandleChallengeAdded(string newChallengeName)
+    {
+        // Update challenge list or perform necessary actions
+    }
+}

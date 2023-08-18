@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkingNerf_Engine", "Drin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkingNerf_DB", "DrinkingNerf_DB\DrinkingNerf_DB.csproj", "{648CEBF7-214D-4CD6-A68E-A48445D93D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrinkingNerf_Blazor", "DrinkingNerf_Blazor\DrinkingNerf_Blazor.csproj", "{5EA6FB85-067A-40C8-A54E-1A3D15536681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkingNerf_Blazor", "DrinkingNerf_Blazor\DrinkingNerf_Blazor.csproj", "{5EA6FB85-067A-40C8-A54E-1A3D15536681}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

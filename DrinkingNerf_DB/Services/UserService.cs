@@ -62,5 +62,21 @@ namespace DrinkingNerf_DB.Services
             var update = Builders<UserModel>.Update.Set(u => u.Score, fromUser.Score).Set(u => u.Ammunitions, fromUser.Ammunitions);
             _userCollection.UpdateOne(u => u.Id == fromUser.UserId.Id, update);
         }
+
+        public void AddUser(User user)
+        {
+            _userCollection.InsertOne(new UserModel()
+            {
+                Name = user.Name,
+                Score = user.Score,
+                Ammunitions = user.Ammunitions,
+                NextResetAmmo = DateTime.Today.AddDays(1)
+            });
+        }
+
+        public void RemoveUser(User user)
+        {
+            _userCollection.DeleteOne(u => u.Id == user.UserId.Id);
+        }
     }
 }

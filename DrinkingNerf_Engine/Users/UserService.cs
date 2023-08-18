@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using System.Security.Cryptography.X509Certificates;
 using DrinkingNerf_Engine.Exceptions;
 
 namespace DrinkingNerf_Engine.Users
@@ -37,6 +38,22 @@ namespace DrinkingNerf_Engine.Users
         public IEnumerable<User> GetUsers()
         {
             return _userCtx.GetUsers();
+        }
+
+        public void AddUser(string userName)
+        {
+            _userCtx.AddUser(new User()
+            {
+                UserId = new UserId(),
+                Name = userName,
+                Score = 0,
+                Ammunitions = RULE_SET.DefaultAmmo
+            });
+        }
+
+        public void DeleteUser(User user)
+        {
+            _userCtx.RemoveUser(user);
         }
     }
 }
