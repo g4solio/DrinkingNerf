@@ -44,10 +44,10 @@
             <div class="col">
                 <div class="d-flex flex-column">
                     <h3 class="text-center">Nemici</h3>
-                    <div class="d-flex flex-wrap justify-content-between">
+                    <div class="row row-cols-2">
                         @foreach (var user in Users)
                         {
-                            <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
+                            <div class="col"><button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button></div>
                         }
                     </div>
                 </div>
@@ -227,6 +227,7 @@
 
         PerformActionAlert($"{(isHitted ? "Hit" : "Miss")} has been registered to {SelectedUser.Name}");
         RemainingBangs = userService.GetUser(UserId).Ammunitions;
+        SelectedUser = null;
     }
 
     private async System.Threading.Tasks.Task PerformActionAlert(string message)
