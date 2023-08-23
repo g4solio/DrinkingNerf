@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var bang in bangService.GetBangsLimited())
+            @foreach (var bang in bangService.GetTodaysBangs())
             {
                 <tr>
                     <td>@userService.GetUser(bang.Shooter)?.Name</td>

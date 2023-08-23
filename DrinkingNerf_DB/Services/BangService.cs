@@ -23,7 +23,6 @@ namespace DrinkingNerf_DB.Services
             _bangCollection = targetDb.GetCollection<BangModel>(dbSettings.Value.BangCollectionName);
         }
 
-
         public void Add(BangOutcome bangOutcome)
         {
             _bangCollection.InsertOne(new BangModel()
@@ -46,18 +45,6 @@ namespace DrinkingNerf_DB.Services
                 DateTime = b.DateTime,
                 ShooterHitScoreModificator = b.ShooterHitScoreModificator
             });
-        }
-
-        public IEnumerable<BangOutcome> GetBangsLimited()
-        {
-            return _bangCollection.AsQueryable().Select(b => new BangOutcome()
-            {
-                Shooter = new DrinkingNerf_Engine.Users.UserId() { Id = b.ShooterId },
-                Target = new DrinkingNerf_Engine.Users.UserId() { Id = b.TargetId },
-                Outcome = b.IsHit ? Bang.OutcomeEnum.Hit : Bang.OutcomeEnum.Missed,
-                DateTime = b.DateTime,
-                ShooterHitScoreModificator = b.ShooterHitScoreModificator
-            }).Take(100);
         }
 
         public void Delete(BangOutcome bang)
