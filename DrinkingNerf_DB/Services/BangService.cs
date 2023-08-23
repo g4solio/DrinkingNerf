@@ -55,7 +55,7 @@ namespace DrinkingNerf_DB.Services
                 Shooter = new DrinkingNerf_Engine.Users.UserId() { Id = b.ShooterId },
                 Target = new DrinkingNerf_Engine.Users.UserId() { Id = b.TargetId },
                 Outcome = b.IsHit ? Bang.OutcomeEnum.Hit : Bang.OutcomeEnum.Missed,
-                DateTime = b.DateTime.Day + 1 == DateTime.Now ? b.DateTime : "",
+                DateTime = b.DateTime.Day >= DateTime.Now.Day - 1 ? b.DateTime : "",
                 ShooterHitScoreModificator = b.ShooterHitScoreModificator
             });
         }
