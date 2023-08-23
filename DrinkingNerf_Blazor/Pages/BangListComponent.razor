@@ -7,50 +7,69 @@
 <div class="user-list">
     <h2 class="text-center">Bang History</h2>
     <div class="bang-list">
-        <div class="card">
-            <div class="card-body">
-                This is some text within a card body.
-            </div>
-        </div>
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Shooter</th>
-                <th>Target</th>
-                <th>Time</th>
-                <th><!-- Delete Icon --></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var bang in bangService.GetBangsOneDayOld())
-            {
-                @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
-                    <tr class="bg-success">
-                        <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                        <td>@userService.GetUser(bang.Target)?.Name</td>
-                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
-                        <td>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                } else {
-                    <tr class="bg-danger">
-                        <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                        <td>@userService.GetUser(bang.Target)?.Name</td>
-                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
-                        <td>
-                            <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                }
+        @foreach (var bang in bangService.GetBangsOneDayOld())
+        {
+            @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
+                <div class="bg-success card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <!-- Shooter & Target -->
+                            <div class="flex-grow-1 card">
+                                <div class="card-body">
+                                    @userService.GetUser(bang.Shooter)?.Name > @userService.GetUser(bang.Target)?.Name
+                                </div>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="card">
+                                <div class="card-body">
+                                    @bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
+                                        Elimina
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            } else {
+                <div class="bg-danger card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <!-- Shooter & Target -->
+                            <div class="flex-grow-1 card">
+                                <div class="card-body">
+                                    @userService.GetUser(bang.Shooter)?.Name > @userService.GetUser(bang.Target)?.Name
+                                </div>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="card">
+                                <div class="card-body">
+                                    @bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
+                                        Elimina
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
+        }
+    </div>
 </div>
 
 @code
