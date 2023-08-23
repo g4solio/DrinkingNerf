@@ -9,95 +9,101 @@
 @inject ChallengeService challengeService;
 @inject BangService bangService;
 
-<PageTitle>@UserId.Id</PageTitle>
+<PageTitle>DrinkingNerf - @Username</PageTitle>
 
-<h3><p>Hi @Username</p></h3>
+<h2 class="text-center my-2">@Username</h2>
 
-<p>
-    Ammunitions:
-    <br />
-    @for(int i = 0; i < RemainingBangs; i++)
-    {
-        <img src="bullet.png" alt="Ammo" />
-    }
-</p>
+<div class="d-flex flex-column m-2 border rounded">
+    <p class="text-center">Ammunitions</p>
+    <div class="d-flex justify-content-between">
+        @for (int i = 0; i < RemainingBangs; i++)
+        {
+            <img src="bullet.png" alt="Ammo" />
+        }
+    </div>
+</div>
 
 @if (SelectedUser == null && RemainingBangs > 0)
 {
-    <h3>Select a User:</h3>
-    @foreach (var user in Users)
-    {
-        <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
-    }
+    <div class="d-flex flex-column m-2 border rounded">
+        <h3>Select a User:</h3>
+        <div class="d-flex justify-content-between">
+            @foreach (var user in Users)
+            {
+                <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
+            }
+        </div>
+    </div>
 }
 
 @if (SelectedUser != null && RemainingBangs > 0)
 {
-    <div>
+    <div class="d-flex flex-column m-2 border rounded">
         <h4>Actions for @SelectedUser.Name:</h4>
-        <button class="btn btn-success" @onclick="() => Bang(true)">Hitted</button>
-        <button class="btn btn-danger" @onclick="() => Bang(false)">Missed</button>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success" @onclick="() => Bang(true)">Hitted</button>
+            <button class="btn btn-danger" @onclick="() => Bang(false)">Missed</button>
+        </div>
     </div>
 }
 
-<div class="challenge-list">
-
+<div class="challenge-list m-2 border rounded">
     <div class="row">
         <div class="col-md-6">
-            <h2>Event List</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Shooter</th>
-                        <th>Target</th>
-                        <!-- ... Other columns ... -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var eventChallenge in Challenges.Where(c => c is Event))
-                    {
+            <div class="d-flex flex-column">
+                <h3 class="text-center">Event List</h3>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@eventChallenge.Name()</td>
-                            <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
-                            <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
-                            <!-- ... Other columns ... -->
+                            <th>Name</th>
+                            <th>Shooter</th>
+                            <th>Target</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var eventChallenge in Challenges.Where(c => c is Event))
+                        {
+                            <tr>
+                                <td>@eventChallenge.Name()</td>
+                                <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
+                                <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
+                                <!-- ... Other columns ... -->
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="col-md-6">
-            <h2>Task List</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Target</th>
-                        <!-- ... Other columns ... -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
-                    {
+            <div class="d-flex flex-column">
+                <h3 class="text-center">Task List</h3>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@taskChallenge.Name()</td>
-                            <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
-                            <!-- ... Other columns ... -->
+                            <th>Name</th>
+                            <th>Target</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
+                        {
+                            <tr>
+                                <td>@taskChallenge.Name()</td>
+                                <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
-
-<div class="bang-list">
+q
+<div class="bang-list m-2 border rounded">
 
     <div class="row">
         <div class="col-md-6">
-            <h2>Shot List</h2>
+            <h3>Shot List</h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -105,7 +111,6 @@
                         <th>Hit/Miss</th>
                         <th>Reward</th>
                         <th>Time</th>
-                        <!-- ... Other columns ... -->
                     </tr>
                 </thead>
                 <tbody>
@@ -114,24 +119,24 @@
                         <tr>
                             <td>@userService.GetUser(bang.Target)?.Name</td>
                             <td>
-                                @if(@bang.Outcome == global::Bang.OutcomeEnum.Hit)
+                                @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit)
                                 {
                                     <div>✅</div>
-                                }else
+                                }
+                                else
                                 {
                                     <div>❌</div>
                                 }
                             </td>
                             <td> + @bang.ShooterHitScoreModificator </td>
-                            <td>@bang.DateTime</td>
-                            <!-- ... Other columns ... -->
+                            <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
         <div class="col-md-6">
-            <h2>Hit Received List</h2>
+            <h3>Hit Received List</h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -188,12 +193,12 @@
     public void Bang(bool isHitted)
     {
         pointSystem.RegisterBang(new global::Bang()
-        {
-            From = UserId,
-            To = SelectedUser.UserId,
-            TimeOfBang = DateTime.Now,
-            Outcome = isHitted ? global::Bang.OutcomeEnum.Hit : global::Bang.OutcomeEnum.Missed
-        });
+            {
+                From = UserId,
+                To = SelectedUser.UserId,
+                TimeOfBang = DateTime.Now,
+                Outcome = isHitted ? global::Bang.OutcomeEnum.Hit : global::Bang.OutcomeEnum.Missed
+            });
 
         PerformActionAlert($"{(isHitted ? "Hit" : "Miss")} has been registered to {SelectedUser.Name}");
         RemainingBangs = userService.GetUser(UserId).Ammunitions;
