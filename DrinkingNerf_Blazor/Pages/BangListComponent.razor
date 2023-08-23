@@ -1,11 +1,12 @@
-﻿@using DrinkingNerf_Engine.Bangs;
+﻿@using System.Globalization;
+@using DrinkingNerf_Engine.Bangs;
 @using DrinkingNerf_Engine.Users;
 @inject BangService bangService;
 @inject UserService userService;
 
 <div class="user-list">
-    <h2>Bang History</h2>
-    <table class="table">
+    <h2 class="text-center">Bang History</h2>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Shooter</th>
@@ -17,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var bang in bangService.GetTodaysBangs())
+            @foreach (var bang in bangService.GetBangsOneDayOld())
             {
                 <tr>
                     <td>@userService.GetUser(bang.Shooter)?.Name</td>
@@ -33,7 +34,7 @@
                         }
                     </td>
                     <td> + @bang.ShooterHitScoreModificator </td>
-                    <td>@bang.DateTime</td>
+                    <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                     <td>
                         <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
                             Delete

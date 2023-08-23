@@ -157,7 +157,7 @@
                             }
                         </td>
                         <td>@bang.ShooterHitScoreModificator</td>
-                        <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
+                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                     </tr>
                 }
             </tbody>
@@ -177,7 +177,7 @@
                 {
                     <tr>
                         <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                        <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
+                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                     </tr>
                 }
             </tbody>

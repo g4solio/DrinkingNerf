@@ -45,7 +45,7 @@ namespace DrinkingNerf_Engine.Bangs
             return FilterBangs(_bangRepository.GetBangs()).OrderByDescending(b => b.DateTime).ToArray();
         }
 
-        public BangOutcome[] GetTodaysBangs()
+        public BangOutcome[] GetBangsOneDayOld()
         {
             return GetBangs().Where(b => b.DateTime.Day >= DateTime.Today.Day - 1).ToArray();
         }

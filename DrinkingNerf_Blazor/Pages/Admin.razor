@@ -1,15 +1,14 @@
 ﻿@page "/admin"
 
-<h3>Admin</h3>
+<h1 class="text-center">Pagina degli Admin</h1>
 
-<div class="admin-page">
-    <h2>User Management</h2>
-
-    <h2>Challenge Management</h2>
+<div class="admin-page">    
     <BangListComponent OnBangDeleted="RefreshUserList" />
-    <AddUserModal OnUserAdded=RefreshUserList />
-    <UserListComponent @ref=userList />
-    <ChallengeListComponent />
+    <!-- <h2>User Management</h2> -->
+    <!-- <AddUserModal OnUserAdded=RefreshUserList /> -->
+    <!-- <UserListComponent @ref=userList /> -->
+    <!-- <h2>Challenge Management</h2> -->
+    <!-- <ChallengeListComponent /> -->
 </div>
 
 @code 
