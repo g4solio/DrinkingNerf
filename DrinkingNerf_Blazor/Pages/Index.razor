@@ -14,7 +14,7 @@
 <h2 class="text-center my-2">@Username</h2>
 
 <div class="d-flex flex-column m-2 border rounded">
-    <p class="text-center">Ammunitions</p>
+    <p class="text-center">Munizioni</p>
     <div class="d-flex justify-content-between">
         @for (int i = 0; i < RemainingBangs; i++)
         {
@@ -26,8 +26,8 @@
 @if (SelectedUser == null && RemainingBangs > 0)
 {
     <div class="d-flex flex-column m-2 border rounded">
-        <h3>Select a User:</h3>
-        <div class="d-flex justify-content-between">
+        <h3 class="text-center">Nemici</h3>
+        <div class="d-flex flex-wrap justify-content-between">
             @foreach (var user in Users)
             {
                 <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
@@ -39,10 +39,10 @@
 @if (SelectedUser != null && RemainingBangs > 0)
 {
     <div class="d-flex flex-column m-2 border rounded">
-        <h4>Actions for @SelectedUser.Name:</h4>
+        <h4>Cosa hai fatto a @SelectedUser.Name?</h4>
         <div class="d-flex justify-content-between">
-            <button class="btn btn-success" @onclick="() => Bang(true)">Hitted</button>
-            <button class="btn btn-danger" @onclick="() => Bang(false)">Missed</button>
+            <button class="btn btn-success" @onclick="() => Bang(true)">Colpito</button>
+            <button class="btn btn-danger" @onclick="() => Bang(false)">Mancato</button>
         </div>
     </div>
 }
@@ -51,13 +51,13 @@
     <div class="row">
         <div class="col-md-6">
             <div class="d-flex flex-column">
-                <h3 class="text-center">Event List</h3>
+                <h3 class="text-center">Eventi</h3>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Shooter</th>
-                            <th>Target</th>
+                            <th>Nome</th>
+                            <th>Pistolero</th>
+                            <th>Bersaglio</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,12 +76,12 @@
         </div>
         <div class="col-md-6">
             <div class="d-flex flex-column">
-                <h3 class="text-center">Task List</h3>
+                <h3 class="text-center">Task</h3>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Target</th>
+                            <th>Nome</th>
+                            <th>Bersaglio</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,14 +103,14 @@ q
 
     <div class="row">
         <div class="col-md-6">
-            <h3>Shot List</h3>
+            <h3>Colpi Sparati</h3>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Target</th>
+                        <th>Bersaglio</th>
                         <th>Hit/Miss</th>
-                        <th>Reward</th>
-                        <th>Time</th>
+                        <th>Sorsi da bere</th>
+                        <th>Tempo</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -128,7 +128,7 @@ q
                                     <div>❌</div>
                                 }
                             </td>
-                            <td> + @bang.ShooterHitScoreModificator </td>
+                            <td>@bang.ShooterHitScoreModificator</td>
                             <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
                         </tr>
                     }
@@ -136,13 +136,12 @@ q
             </table>
         </div>
         <div class="col-md-6">
-            <h3>Hit Received List</h3>
+            <h3>Colpi Ricevuti</h3>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Shooter</th>
-                        <th>Time</th>
-                        <!-- ... Other columns ... -->
+                        <th>Pistolero</th>
+                        <th>Quando</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,8 +149,7 @@ q
                     {
                         <tr>
                             <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                            <td>@bang.DateTime</td>
-                            <!-- ... Other columns ... -->
+                            <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
                         </tr>
                     }
                 </tbody>
