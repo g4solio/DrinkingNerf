@@ -57,7 +57,7 @@ namespace DrinkingNerf_DB.Services
                 Outcome = b.IsHit ? Bang.OutcomeEnum.Hit : Bang.OutcomeEnum.Missed,
                 DateTime = b.DateTime.Day >= DateTime.Now.Day - 1 ? b.DateTime : "",
                 ShooterHitScoreModificator = b.ShooterHitScoreModificator
-            });
+            }).Take(100);
         }
 
         public void Delete(BangOutcome bang)
