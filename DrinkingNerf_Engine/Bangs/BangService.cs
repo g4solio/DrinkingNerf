@@ -47,7 +47,7 @@ namespace DrinkingNerf_Engine.Bangs
 
         public BangOutcome[] GetTodaysBangs()
         {
-            return GetBangs().Where(b => b.DateTime.Day == DateTime.Today.Day).ToArray();
+            return GetBangs().Where(b => b.DateTime.Day >= DateTime.Today.Day - 1).ToArray();
         }
 
         public bool ShouldRegainAmmo(UserId shooterId)
