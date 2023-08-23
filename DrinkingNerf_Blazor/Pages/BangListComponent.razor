@@ -11,10 +11,18 @@
         {
             @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
                 <div class="card bg-success"><div class="card-body">
-                    <div class="d-flex">
+                    <div class="d-flex gap-1">
                         <!-- Shooter & Target -->
                         <div class="flex-grow-1 text-center bg-white p-1 rounded-3">
-                            @userService.GetUser(bang.Shooter)?.Name > @userService.GetUser(bang.Target)?.Name
+                            @userService.GetUser(bang.Shooter)?.Name
+                        </div>
+
+                        <div class="text-center bg-white p-1 rounded-3">
+                             > 
+                        </div>
+
+                        <div class="flex-grow-1 text-center bg-white p-1 rounded-3">
+                            @userService.GetUser(bang.Target)?.Name
                         </div>
 
                         <!-- Info -->

@@ -1,3 +1,5 @@
-.bg-hitted {
-    background-color: blueviolet;
+.bang-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
