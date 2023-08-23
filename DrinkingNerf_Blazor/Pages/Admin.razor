@@ -4,15 +4,12 @@
 
 <div class="admin-page">
     <h2>User Management</h2>
-    <AddUserModal OnUserAdded=RefreshUserList />
-    <UserListComponent @ref=userList/>
-    <!-- List of users with edit and delete options -->
 
     <h2>Challenge Management</h2>
-    <ChallengeListComponent />
     <BangListComponent OnBangDeleted="RefreshUserList" />
-    <!-- List of challenges with edit and delete options -->
-    <!-- Rest of your admin page content -->
+    <AddUserModal OnUserAdded=RefreshUserList />
+    <UserListComponent @ref=userList/>
+    <ChallengeListComponent />
 </div>
 
 @code 

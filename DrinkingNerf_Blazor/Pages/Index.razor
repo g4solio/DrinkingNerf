@@ -44,10 +44,10 @@
             <div class="col">
                 <div class="d-flex flex-column">
                     <h3 class="text-center">Nemici</h3>
-                    <div class="row row-cols-2">
+                    <div class="row row-cols-4">
                         @foreach (var user in Users)
                         {
-                            <div class="col"><button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button></div>
+                            <div class="col text-center"><button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button></div>
                         }
                     </div>
                 </div>
