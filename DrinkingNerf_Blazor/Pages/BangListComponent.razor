@@ -6,6 +6,13 @@
 
 <div class="user-list">
     <h2 class="text-center">Bang History</h2>
+    <div class="bang-list">
+        <div class="card">
+            <div class="card-body">
+                This is some text within a card body.
+            </div>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -24,7 +31,7 @@
                         <td>@userService.GetUser(bang.Target)?.Name</td>
                         <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
+                            <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
                                 Delete
                             </button>
                         </td>
@@ -35,7 +42,7 @@
                         <td>@userService.GetUser(bang.Target)?.Name</td>
                         <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
+                            <button class="btn btn-outline-danger btn-sm" @onclick="() => Delete(bang)">
                                 Delete
                             </button>
                         </td>
