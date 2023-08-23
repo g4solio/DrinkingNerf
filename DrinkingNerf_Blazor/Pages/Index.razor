@@ -9,15 +9,18 @@
 @inject ChallengeService challengeService;
 @inject BangService bangService;
 
+
 <PageTitle>DrinkingNerf - @Username</PageTitle>
 
-<div class="row border">
+
+<div class="row my-2 p-2 border rounded-3">
     <div class="col">
         <h2 class="text-center my-2">@Username</h2>
     </div>
 </div>
 
-<div class="row border">
+
+<div class="row my-2 p-2 border rounded-3">
     <div class="col">
         <div class="d-flex flex-column">
             <h3 class="text-center">Munizioni</h3>
@@ -32,146 +35,153 @@
 </div>
 
 
-@if (SelectedUser == null && RemainingBangs > 0)
+@if (RemainingBangs > 0)
 {
-    <div class="row border">
+    @if (SelectedUser == null)
+    {
+        // Selezionare un utente
+        <div class="row my-2 p-2 border rounded-3">
+            <div class="col">
+                <div class="d-flex flex-column">
+                    <h3 class="text-center">Nemici</h3>
+                    <div class="d-flex flex-wrap justify-content-between">
+                        @foreach (var user in Users)
+                        {
+                            <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    } else {
+        // Utente selezionato, selezionare l'azione
+        <div class="row my-2 p-2 border rounded-3">
+            <div class="col">
+                <div class="d-flex flex-column m-2 border rounded">
+                    <h4 class="text-center">Cosa hai fatto a @SelectedUser.Name?</h4>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-success" @onclick="() => Bang(true)">Colpito</button>
+                        <button class="btn btn-danger" @onclick="() => Bang(false)">Mancato</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+} else {
+    // Nessun colpo rimasto
+    <div class="row my-2 p-2 border rounded-3">
         <div class="col">
-            <div class="d-flex flex-column m-2 border rounded">
-                <h3 class="text-center">Nemici</h3>
-                <div class="d-flex flex-wrap justify-content-between">
-                    @foreach (var user in Users)
+            <div class="alert alert-danger" role="alert">
+                Hai finito i colpi.
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="challenge-list row my-2 p-2 border rounded-3">
+    <div class="col-md-6">
+        <div class="d-flex flex-column">
+            <h3 class="text-center">Eventi</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Pistolero</th>
+                        <th>Bersaglio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var eventChallenge in Challenges.Where(c => c is Event))
                     {
-                        <button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button>
+                        <tr>
+                            <td>@eventChallenge.Name()</td>
+                            <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
+                            <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
+                        </tr>
                     }
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
-}
-
-@if (SelectedUser != null && RemainingBangs > 0)
-{
-    <div class="row border">
-        <div class="col">
-            <div class="d-flex flex-column m-2 border rounded">
-                <h4>Cosa hai fatto a @SelectedUser.Name?</h4>
-                <div class="d-flex justify-content-between">
-                    <button class="btn btn-success" @onclick="() => Bang(true)">Colpito</button>
-                    <button class="btn btn-danger" @onclick="() => Bang(false)">Mancato</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-<div class="challenge-list">
-    <div class="row border">
-        <div class="col-md-6">
-            <div class="d-flex flex-column">
-                <h3 class="text-center">Eventi</h3>
-                <table class="table">
-                    <thead>
+    <div class="col-md-6">
+        <div class="d-flex flex-column">
+            <h3 class="text-center">Task</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Bersaglio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
+                    {
                         <tr>
-                            <th>Nome</th>
-                            <th>Pistolero</th>
-                            <th>Bersaglio</th>
+                            <td>@taskChallenge.Name()</td>
+                            <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var eventChallenge in Challenges.Where(c => c is Event))
-                        {
-                            <tr>
-                                <td>@eventChallenge.Name()</td>
-                                <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
-                                <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
-                                <!-- ... Other columns ... -->
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="d-flex flex-column">
-                <h3 class="text-center">Task</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Bersaglio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
-                        {
-                            <tr>
-                                <td>@taskChallenge.Name()</td>
-                                <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<div class="bang-list">
 
-    <div class="row border">
-        <div class="col-md-6">
-            <h3>Colpi Sparati</h3>
-            <table class="table">
-                <thead>
+<div class="bang-list row my-2 p-2 border rounded-3">
+    <div class="col-md-6">
+        <h3 class="text-center">Colpi Sparati</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Bersaglio</th>
+                    <th>Hit/Miss</th>
+                    <th>Sorsi da bere</th>
+                    <th>Tempo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bang in bangService.GetBangsFromShooterId(UserId))
+                {
                     <tr>
-                        <th>Bersaglio</th>
-                        <th>Hit/Miss</th>
-                        <th>Sorsi da bere</th>
-                        <th>Tempo</th>
+                        <td>@userService.GetUser(bang.Target)?.Name</td>
+                        <td>
+                            @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit)
+                            {
+                                <div>✅</div>
+                            }
+                            else
+                            {
+                                <div>❌</div>
+                            }
+                        </td>
+                        <td>@bang.ShooterHitScoreModificator</td>
+                        <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var bang in bangService.GetBangsFromShooterId(UserId))
-                    {
-                        <tr>
-                            <td>@userService.GetUser(bang.Target)?.Name</td>
-                            <td>
-                                @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit)
-                                {
-                                    <div>✅</div>
-                                }
-                                else
-                                {
-                                    <div>❌</div>
-                                }
-                            </td>
-                            <td>@bang.ShooterHitScoreModificator</td>
-                            <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <h3>Colpi Ricevuti</h3>
-            <table class="table">
-                <thead>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3 class="text-center">Colpi Ricevuti</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Pistolero</th>
+                    <th>Quando</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bang in bangService.GetBangsFromTargetId(UserId))
+                {
                     <tr>
-                        <th>Pistolero</th>
-                        <th>Quando</th>
+                        <td>@userService.GetUser(bang.Shooter)?.Name</td>
+                        <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var bang in bangService.GetBangsFromTargetId(UserId))
-                    {
-                        <tr>
-                            <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                            <td>@bang.DateTime.ToString("dd MMMM, h:mm tt", CultureInfo.InvariantCulture)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
