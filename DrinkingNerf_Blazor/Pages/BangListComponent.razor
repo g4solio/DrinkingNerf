@@ -11,36 +11,27 @@
             <tr>
                 <th>Shooter</th>
                 <th>Target</th>
-                <th>Hit/Miss</th>
-                <th>Reward</th>
                 <th>Time</th>
-                <th></th> <!-- Column for delete icon -->
+                <th><!-- Delete Icon --></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var bang in bangService.GetBangsOneDayOld())
             {
-                <tr>
-                    <td>@userService.GetUser(bang.Shooter)?.Name</td>
-                    <td>@userService.GetUser(bang.Target)?.Name</td>
-                    <td>
-                        @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit)
-                        {
-                            <div>✅</div>
-                        }
-                        else
-                        {
-                            <div>❌</div>
-                        }
-                    </td>
-                    <td> + @bang.ShooterHitScoreModificator </td>
-                    <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
+                @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
+                    <tr class="bg-success">
+                } else {
+                    <tr class="bg-danger">
+                }
+                        <td>@userService.GetUser(bang.Shooter)?.Name</td>
+                        <td>@userService.GetUser(bang.Target)?.Name</td>
+                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
             }
         </tbody>
     </table>
