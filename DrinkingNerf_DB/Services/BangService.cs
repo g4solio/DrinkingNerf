@@ -48,6 +48,18 @@ namespace DrinkingNerf_DB.Services
             });
         }
 
+        public IEnumerable<BangOutcome> GetBangsLimited()
+        {
+            return _bangCollection.AsQueryable().Select(b => new BangOutcome()
+            {
+                Shooter = new DrinkingNerf_Engine.Users.UserId() { Id = b.ShooterId },
+                Target = new DrinkingNerf_Engine.Users.UserId() { Id = b.TargetId },
+                Outcome = b.IsHit ? Bang.OutcomeEnum.Hit : Bang.OutcomeEnum.Missed,
+                DateTime = b.DateTime.Day + 1 == DateTime.Now ? b.DateTime : "",
+                ShooterHitScoreModificator = b.ShooterHitScoreModificator
+            });
+        }
+
         public void Delete(BangOutcome bang)
         {
             _bangCollection.DeleteOne(b => b.TargetId == bang.Target.Id && b.ShooterId == bang.Shooter.Id && b.DateTime == bang.DateTime);
