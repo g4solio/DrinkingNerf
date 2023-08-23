@@ -137,7 +137,7 @@
                 <tr>
                     <th>Bersaglio</th>
                     <th>Sorsi da bere</th>
-                    <th>Tempo</th>
+                    <th>#</th>
                 </tr>
             </thead>
             <tbody>
@@ -145,13 +145,17 @@
                 {
                     @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
                         <tr class="bg-success">
-                    } else {
-                        <tr class="bg-danger">
-                    }
                             <td>@userService.GetUser(bang.Target)?.Name</td>
                             <td>@bang.ShooterHitScoreModificator</td>
                             <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
                         </tr>
+                    } else {
+                        <tr class="bg-danger">
+                            <td>@userService.GetUser(bang.Target)?.Name</td>
+                            <td>@bang.ShooterHitScoreModificator</td>
+                            <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
+                        </tr>
+                    }  
                 }
             </tbody>
         </table>

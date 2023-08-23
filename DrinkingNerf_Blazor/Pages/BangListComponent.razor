@@ -20,9 +20,6 @@
             {
                 @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
                     <tr class="bg-success">
-                } else {
-                    <tr class="bg-danger">
-                }
                         <td>@userService.GetUser(bang.Shooter)?.Name</td>
                         <td>@userService.GetUser(bang.Target)?.Name</td>
                         <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
@@ -32,6 +29,18 @@
                             </button>
                         </td>
                     </tr>
+                } else {
+                    <tr class="bg-danger">
+                        <td>@userService.GetUser(bang.Shooter)?.Name</td>
+                        <td>@userService.GetUser(bang.Target)?.Name</td>
+                        <td>@bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" @onclick="() => Delete(bang)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
