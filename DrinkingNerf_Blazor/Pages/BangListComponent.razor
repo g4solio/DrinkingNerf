@@ -9,7 +9,7 @@
     <div class="bang-list">
         @foreach (var bang in bangService.GetBangsOneDayOld())
         {
-            @if (@bang.Outcome == global::Bang.OutcomeEnum.Hit) {
+            @if (bang.Outcome == global::Bang.OutcomeEnum.Hit) {
                 <div class="card bg-success"><div class="card-body">
                     <div class="d-flex gap-1">
                         <!-- Shooter & Target -->
