@@ -47,7 +47,11 @@
                     <div class="row row-cols-4">
                         @foreach (var user in Users)
                         {
-                            <div class="col text-center"><button class="btn btn-primary" @onclick="() => SelectUser(user)">@user.Name</button></div>
+                            <div class="col text-center">
+                                <button class="btn" @onclick="() => SelectUser(user)">
+                                    @user.Name
+                                </button>
+                            </div>
                         }
                     </div>
                 </div>
@@ -77,56 +81,6 @@
         </div>
     </div>
 }
-
-
-<div class="challenge-list row my-2 p-2 border rounded-3">
-    <div class="col-md-6">
-        <div class="d-flex flex-column">
-            <h3 class="text-center">Eventi</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Pistolero</th>
-                        <th>Bersaglio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var eventChallenge in Challenges.Where(c => c is Event))
-                    {
-                        <tr>
-                            <td>@eventChallenge.Name()</td>
-                            <td>@userService.GetUser(eventChallenge.Shooter())?.Name</td>
-                            <td>@userService.GetUser(eventChallenge.Target())?.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="d-flex flex-column">
-            <h3 class="text-center">Task</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Bersaglio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var taskChallenge in Challenges.Where(c => c is DrinkingNerf_Engine.Challenges.Task))
-                    {
-                        <tr>
-                            <td>@taskChallenge.Name()</td>
-                            <td>@userService.GetUser(taskChallenge.Target())?.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 
 <div class="bang-list row my-2 p-2 border rounded-3">

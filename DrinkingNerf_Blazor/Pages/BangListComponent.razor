@@ -13,12 +13,12 @@
                 <div class="card bg-success"><div class="card-body">
                     <div class="d-flex">
                         <!-- Shooter & Target -->
-                        <div class="bg-white">
+                        <div class="flex-grow-1 text-center bg-white p-1 rounded-3">
                             @userService.GetUser(bang.Shooter)?.Name > @userService.GetUser(bang.Target)?.Name
                         </div>
 
                         <!-- Info -->
-                        <div class="bg-white">
+                        <div class="bg-white p-1 rounded-3">
                             @bang.DateTime.ToString("HH:mm dd MMM", CultureInfo.InvariantCulture)
                         </div>
 
